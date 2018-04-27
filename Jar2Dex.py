@@ -17,7 +17,15 @@ def check_target_path(target_path):
         return False
 
 
-def jar_to_dex(source_path, target_path):
+def check_file_type(file_type):
+    if file_type == 'jar' | file_type == 'dex':
+        return True
+    else:
+        print("输入的文件格式不对,请重新输入!")
+        return False
+
+
+def jar_to_dex(source_path, target_path, file_type):
     files = os.listdir(source_path)
     if len(files) == 0:
         print(source_path + "目录下无文件!")
@@ -27,7 +35,7 @@ def jar_to_dex(source_path, target_path):
             if os.path.isfile(file_path) & file.endswith(".jar"):
                 name = file.replace(".jar", "")
                 print("name:" + name)
-                dex_path = target_path + '\\' + name + '.dex'
+                dex_path = target_path + '\\' + name + '.' + file_type
                 jar_path = source_path + '\\' + name + '.jar'
                 commnad = 'dx --dex --output ' + dex_path + ' ' + jar_path
                 print("commnad:" + commnad)
@@ -39,7 +47,10 @@ def jar_to_dex(source_path, target_path):
 source_path = input("请输入jar包所在目录:\n")
 while not check_source_path(source_path):
     source_path = input("请输入jar包所在目录:\n")
+file_type = input("请输入要转换的类型jar 或者 dex")
+while not check_file_type(file_type):
+    file_type = input("请输入要转换的类型jar 或者 dex")
 target_path = input("请输入dex包输出目录:\n")
 while not check_target_path(target_path):
     targetPath = input("请输入dex包输出目录:\n")
-jar_to_dex(source_path, target_path)
+jar_to_dex(source_path, target_path, file_type)
